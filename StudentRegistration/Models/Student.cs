@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -8,30 +9,21 @@ namespace StudentRegistration.Models
 {
 	public class Student
 	{
+		[Display(Name = "Student ID Number")]
 		public int ID { get; set; }
+
+		[Display(Name = "Student Name")]
 		public string Name { get; set; }
-		public int CellPh { get; set; }
-		public int age { get; set; }
 
+		[Display(Name = "Mobile Phone Number")]
+		[DataType(DataType.PhoneNumber)]
+		public double CellPh { get; set; }
 
-		public static string SetPhoneNumberWithDashes(string CellPh)
-		{
-			if (string.IsNullOrWhiteSpace(CellPh) || !Regex.IsMatch(CellPh, @"^\d+$"))
-			{
-				return string.Empty;
-			}
+		[Display(Name = "Email address")]
+		[Required(ErrorMessage = "The email address is required")]
+		[EmailAddress(ErrorMessage = "Invalid Email Address")]
+		public string Email { get; set; }
 
-			if (CellPh.Length == 12 && CellPh.Substring(3, 1) == "-" && CellPh.Substring(7, 1) == "-")
-			{
-				return CellPh;
-			}
-
-			if (CellPh.Length == 10)
-			{
-				return string.Format("{0:###-###-####}", CellPh);
-			}
-
-			return string.Empty;
-		}
+		public int Age { get; set; }
 	}
 }
